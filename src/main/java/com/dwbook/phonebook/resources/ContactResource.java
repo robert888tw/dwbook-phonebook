@@ -1,5 +1,8 @@
 package com.dwbook.phonebook.resources;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -27,18 +30,21 @@ public class ContactResource {
 	@GET
 	@Path("/{id}")
 	public Response getContact(@PathParam("id") int id) {
-		Contact contact = contactDao.getcontactByid(id);
+		Contact contact = contactDao.getContactByid(id);
 		return Response.ok(contact).build();
 	}
 	
 	@POST
-	public Response createContact(Contact contact) {
-		return Response.created(null).build();
+	public Response createContact(Contact contact) throws URISyntaxException {
+		int newContactId = contactDao.createContact(contact.getFirstName(), contact.getLastName(), 
+				contact.getPhone());
+		return Response.created(new URI(String.valueOf(newContactId))).build();
 	}
 	
 	@DELETE
 	@Path("/{id}")
 	public Response deleteContact(@PathParam("id") int id) {
+		contactDao.deleteContact(id);
 		return Response
 				.noContent()
 				.build();
@@ -46,12 +52,12 @@ public class ContactResource {
 	
 	@PUT
 	@Path("/{id}")
-	public Response updateContact(
-			@PathParam("id") int id, 
-			Contact contact) {
+	public Response updateContact(@PathParam("id") int id, Contact contact) {
+		contactDao.updateContact(id, contact.getFirstName(), contact.getLastName(), 
+				contact.getPhone());
 		return Response
 				.ok(new Contact(id, contact.getFirstName(), 
-						contact.getFirstName(), contact.getPhone()))
+						contact.getLastName(), contact.getPhone()))
 				.build();
 	}
 			
