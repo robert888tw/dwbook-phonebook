@@ -16,8 +16,11 @@
     </repository>
   </repositories>
   
-  
-  
+  <properties>
+    <dropwizard.version>0.8.2</dropwizard.version>
+    <mysqlconnector.version>5.1.23</mysqlconnector.version>
+  </properties>
+    
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -25,11 +28,20 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-  
+    <dependency>
+     <groupId>mysql</groupId>
+     <artifactId>mysql-connector-java</artifactId>
+     <version>${mysqlconnector.version}</version>
+    </dependency>
     <dependency>
       <groupId>io.dropwizard</groupId>
       <artifactId>dropwizard-core</artifactId>
-      <version>0.8.2</version>
+      <version>${dropwizard.version}</version>
+   </dependency>
+   <dependency>
+     <groupId>io.dropwizard</groupId>
+     <artifactId>dropwizard-jdbi</artifactId>
+     <version>${dropwizard.version}</version>
    </dependency>
  </dependencies>
 

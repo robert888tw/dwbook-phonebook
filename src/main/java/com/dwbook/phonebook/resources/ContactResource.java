@@ -10,15 +10,25 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.skife.jdbi.v2.DBI;
+
+import com.dwbook.phonebook.dao.ContactDAO;
 import com.dwbook.phonebook.representations.Contact;
 
 @Path("/contact")
 @Produces(MediaType.APPLICATION_JSON)
 public class ContactResource {
+	private final ContactDAO contactDao;
+	
+	public ContactResource(DBI jdbi) {
+		contactDao = jdbi.onDemand(ContactDAO.class);
+	}
+	
 	@GET
 	@Path("/{id}")
 	public Response getContact(@PathParam("id") int id) {
-		return Response.ok(new Contact(id, "John", "Doe", "+123456789")).build();
+		Contact contact = contactDao.getcontactByid(id);
+		return Response.ok(contact).build();
 	}
 	
 	@POST

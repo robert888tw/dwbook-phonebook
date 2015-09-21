@@ -1,9 +1,11 @@
 package com.dwbook.phonebook;
 
 import io.dropwizard.Application;
+import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
+import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +34,11 @@ public class App extends Application<PhonebookConfiguration>
 		for(int i=0; i<c.getMessageRepetitions(); i++) {
 			System.out.println(c.getMessage());
 		}
-		e.jersey().register(new ContactResource());
+		final DBIFactory factory = new DBIFactory();
+		final DBI jdbi = factory.build(e, c.getDataSourceFactory(), "mysql");
+		
+		
+		e.jersey().register(new ContactResource(jdbi));
 	}
     
     
