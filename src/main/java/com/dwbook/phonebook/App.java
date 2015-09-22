@@ -38,7 +38,7 @@ public class App extends Application<PhonebookConfiguration>
 		final DBI jdbi = factory.build(e, c.getDataSourceFactory(), "mysql");
 		
 		
-		e.jersey().register(new ContactResource(jdbi));
+		e.jersey().register(new ContactResource(jdbi, e.getValidator()));
 	}
     
     
