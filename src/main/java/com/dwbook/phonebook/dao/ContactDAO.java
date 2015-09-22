@@ -4,14 +4,16 @@ import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
-import org.skife.jdbi.v2.sqlobject.customizers.Mapper;
+// import org.skife.jdbi.v2.sqlobject.customizers.Mapper;
+import org.skife.jdbi.v2.sqlobject.helpers.MapResultAsBean;
 
-import com.dwbook.phonebook.dao.mappers.ContactMapper;
+// import com.dwbook.phonebook.dao.mappers.ContactMapper;
 import com.dwbook.phonebook.representations.Contact;
 
 public interface ContactDAO {
 	
-	@Mapper(ContactMapper.class)
+	// @Mapper(ContactMapper.class)
+	@MapResultAsBean
 	@SqlQuery("select * from contact where id = :id")
 	Contact getContactByid(@Bind("id") int id);
 	

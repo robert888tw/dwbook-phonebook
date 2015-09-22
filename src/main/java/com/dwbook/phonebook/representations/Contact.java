@@ -1,10 +1,16 @@
 package com.dwbook.phonebook.representations;
 
 public class Contact {
+/*
 	private final int id;
 	private final String firstName;
 	private final String lastName;
 	private final String phone;
+*/
+	private int id;
+	private String firstName;
+	private String lastName;
+	private String phone;
 	
 	public Contact() {
 		this.id = 0;
@@ -36,8 +42,20 @@ public class Contact {
 		return phone;
 	}
 	
-	
-	
-	
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	
 }
