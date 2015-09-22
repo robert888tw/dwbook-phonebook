@@ -1,6 +1,11 @@
 package com.dwbook.phonebook.representations;
 
-import org.hibernate.validator.constraints.*;
+import io.dropwizard.validation.ValidationMethod;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 public class Contact {
@@ -14,6 +19,17 @@ public class Contact {
 	@NotBlank
 	@Length(min=2, max=30)
 	private final String phone;
+	
+	@JsonIgnore
+	@ValidationMethod(message="John Doe is not valid person!")
+	public boolean isValidContact() {
+		if(firstName.equals("John") && lastName.equals("Doe")) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 	
 	public Contact() {
 		this.id = 0;
