@@ -1,14 +1,18 @@
 package com.dwbook.phonebook;
 
 import io.dropwizard.Application;
+import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+
+import javax.ws.rs.client.Client;
 
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dwbook.phonebook.resources.ClientResource;
 import com.dwbook.phonebook.resources.ContactResource;
 
 /**
@@ -37,8 +41,10 @@ public class App extends Application<PhonebookConfiguration>
 		final DBIFactory factory = new DBIFactory();
 		final DBI jdbi = factory.build(e, c.getDataSourceFactory(), "mysql");
 		
-		
+		final Client client = new JerseyClientBuilder(e).build("REST Client");
+				
 		e.jersey().register(new ContactResource(jdbi, e.getValidator()));
+		e.jersey().register(new ClientResource(client));
 	}
     
     
