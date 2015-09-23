@@ -36,7 +36,8 @@ public class ClientResource {
 	@GET
 	@Path("createContact")
 	public Response newContact(@QueryParam("firstName") String firstName,
-			@QueryParam("lastName") String lastName, @QueryParam("phone") String phone) {
+			@QueryParam("lastName") String lastName, 
+			@QueryParam("phone") String phone) {
 		WebTarget contactResource = client.target("http://localhost:8080/contact/");
 		Response response = contactResource.request(MediaType.APPLICATION_JSON)
 				.post(Entity.entity(new Contact(0, firstName, lastName, phone), 
@@ -51,6 +52,24 @@ public class ClientResource {
 			return Response.status(422).entity(response.getEntity()).build();
 		}
 	
+	}
+	
+	@GET
+	@Path("updateContact")
+	public Response updateContact(@QueryParam("id") int id,
+			@QueryParam("firstName") String firstName,
+			@QueryParam("lastName") String lastName, 
+			@QueryParam("phone") String phone) {
+		WebTarget contactResource = client.target("http://localhost:8080/contact/" + id);
+		Response response = contactResource.request(MediaType.APPLICATION_JSON)
+				.put(Entity.entity(new Contact(id, firstName, lastName, phone), 
+						MediaType.APPLICATION_JSON), Response.class);
+		if(response.getStatus() == 200) {
+			return Response.status(302).entity("The contact was updated sucessfully!").build();
+		}
+		else {
+			return Response.status(422).entity(response.getEntity()).build();
+		}
 	}
 	
 	
