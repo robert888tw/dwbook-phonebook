@@ -72,6 +72,12 @@ public class ClientResource {
 		}
 	}
 	
-	
+	@GET
+	@Path("deleteContact")
+	public Response deleteContact(@QueryParam("id") int id) {
+		WebTarget contactResource = client.target("http://localhost:8080/contact/" + id);
+		contactResource.request().delete();
+		return Response.noContent().entity("Contact was deleted!").build();
+	}
 	
 }
