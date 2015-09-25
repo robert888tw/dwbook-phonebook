@@ -1,5 +1,7 @@
 package com.dwbook.phonebook.resources;
 
+import io.dropwizard.auth.Auth;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;

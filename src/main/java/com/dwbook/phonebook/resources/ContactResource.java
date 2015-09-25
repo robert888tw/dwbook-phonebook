@@ -1,5 +1,7 @@
 package com.dwbook.phonebook.resources;
 
+import io.dropwizard.auth.Auth;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -36,13 +38,13 @@ public class ContactResource {
 	
 	@GET
 	@Path("/{id}")
-	public Response getContact(@PathParam("id") int id) {
+	public Response getContact(@PathParam("id") int id, @Auth Boolean isAuthed) {
 		Contact contact = contactDao.getContactByid(id);
 		return Response.ok(contact).build();
 	}
 	
 	@POST
-	public Response createContact(Contact contact) throws URISyntaxException {
+	public Response createContact(Contact contact, @Auth Boolean isAuthed) throws URISyntaxException {
 		Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
 		if(violations.size() > 0) {
 			ArrayList<String> validationMessages = new ArrayList<String>();
@@ -64,7 +66,7 @@ public class ContactResource {
 	
 	@DELETE
 	@Path("/{id}")
-	public Response deleteContact(@PathParam("id") int id) {
+	public Response deleteContact(@PathParam("id") int id, @Auth Boolean isAuthed) {
 		contactDao.deleteContact(id);
 		return Response
 				.noContent()
@@ -73,7 +75,7 @@ public class ContactResource {
 	
 	@PUT
 	@Path("/{id}")
-	public Response updateContact(@PathParam("id") int id, Contact contact) {
+	public Response updateContact(@PathParam("id") int id, Contact contact, @Auth Boolean isAuthed) {
 		Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
 		if(violations.size() > 0) {
 			ArrayList<String> validationMessages = new ArrayList<String>();

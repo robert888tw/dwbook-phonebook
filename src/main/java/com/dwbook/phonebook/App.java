@@ -1,6 +1,8 @@
 package com.dwbook.phonebook;
 
 import io.dropwizard.Application;
+import io.dropwizard.auth.AuthFactory;
+import io.dropwizard.auth.basic.BasicAuthFactory;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
@@ -12,6 +14,7 @@ import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dwbook.phonebook.auth.PhonebookAuthenticator;
 import com.dwbook.phonebook.resources.ClientResource;
 import com.dwbook.phonebook.resources.ContactResource;
 
@@ -45,6 +48,14 @@ public class App extends Application<PhonebookConfiguration>
 				
 		e.jersey().register(new ContactResource(jdbi, e.getValidator()));
 		e.jersey().register(new ClientResource(client));
+		
+		e.jersey().register(AuthFactory.binder(
+				new BasicAuthFactory<> (
+						new PhonebookAuthenticator(), 
+						"Web Service Realm", 
+						Boolean.class)));
+		
+		
 	}
     
     
